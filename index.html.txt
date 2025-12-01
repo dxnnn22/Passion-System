@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام طلبات المطبعة - البسيط</title>
+    <style>
+        /* CSS Code for Styling and Responsiveness */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #orderSummary {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>سستم اوردر المطبعة</h1>
+        
+        <div class="form-group">
+            <label for="customerName">اسم العميل:</label>
+            <input type="text" id="customerName" placeholder="أدخل الاسم كاملاً" required>
+        </div>
+
+        <div class="form-group">
+            <label for="printType">نوع الطباعة:</label>
+            <select id="printType">
+                <option value="طباعة عادية">طباعة عادية (A4/A3)</option>
+                <option value="كروت شخصية">كروت شخصية</option>
+                <option value="بنرات وفليكس">بنرات وفليكس</option>
+                <option value="تصميم فقط">تصميم فقط</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">الكمية:</label>
+            <input type="number" id="quantity" min="1" value="1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="designFile">تحميل ملف التصميم (اختياري):</label>
+            <input type="file" id="designFile" accept=".jpg, .png, .pdf, .ai, .psd">
+        </div>
+
+        <button onclick="submitOrder()">إرسال الطلب</button>
+
+        <div id="orderSummary">
+            <h3>ملخص الطلب:</h3>
+            <p id="summaryDetails"></p>
+        </div>
+    </div>
+
+    <script>
+        /* JavaScript Code for Interactivity */
+        function submitOrder() {
+            // Get values from the form inputs
+            const name = document.getElementById('customerName').value;
+            const type = document.getElementById('printType').value;
+            const quantity = document.getElementById('quantity').value;
+            const fileInput = document.getElementById('designFile');
+            
+            // Simple validation
+            if (name === "" || quantity < 1) {
+                alert("الرجاء إدخال الاسم والكمية بشكل صحيح.");
+                return;
+            }
+
+            // Get file name if one was selected (simple example)
+            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : "لم يتم تحميل ملف";
+
+            // Create summary text
+            const summaryText = `
+                الاسم: ${name}<br>
+                النوع: ${type}<br>
+                الكمية: ${quantity}<br>
+                الملف: ${fileName}
+            `;
+
+            // Display the summary section
+            document.getElementById('summaryDetails').innerHTML = summaryText;
+            document.getElementById('orderSummary').style.display = 'block';
+
+            // In a real system, you would send this data to a server using fetch() or AJAX here.
+            alert("تم استلام طلبك بنجاح! يمكنك رؤية الملخص أدناه.");
+        }
+    </script>
+
+</body>
+</html>
+
